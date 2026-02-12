@@ -5,10 +5,24 @@ from participant import PC, NPC
 from battle import simulate_battle
 from stats import StatsTracker
 
-def load_participants(data, cls):
+def load_participants(*, data, cls):
+    """
+    Creates participant objects from configuration data.
+    
+    Args:
+        data (list): List of dictionaries containing participant attributes.
+        cls (class): The class to instantiate (PC or NPC).
+        
+    Returns:
+        list: A list of instantiated objects.
+    """
     return [cls(**item) for item in data]
 
 def main():
+    """
+    Main entry point for the battle simulator.
+    Parses CLI arguments, loads config, and runs the simulation loop.
+    """
     parser = argparse.ArgumentParser(description="Battle Simulator")
     parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
     parser.add_argument("--iterations", type=int, help="Number of battles to simulate (overrides config)")
@@ -39,11 +53,11 @@ def main():
 
     for i in range(iterations):
         # We need fresh objects for each battle
-        pcs = load_participants(pc_data, PC)
-        npcs = load_participants(npc_data, NPC)
+        pcs = load_participants(data=pc_data, cls=PC)
+        npcs = load_participants(data=npc_data, cls=NPC)
         
-        result = simulate_battle(pcs, npcs)
-        tracker.track_battle(result)
+        result = simulate_battle(pcs=pcs, npcs=npcs)
+        tracker.track_battle(result=result)
 
     # Output stats
     print("\n" + tracker.report())

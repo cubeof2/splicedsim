@@ -1,17 +1,20 @@
 import random
 
-def simulate_battle(pcs, npcs):
+def simulate_battle(*, pcs, npcs):
     """
     Simulates a single battle until one side is defeated.
-    Returns a dictionary with the results.
+    
+    Args:
+        pcs (list): List of PC objects.
+        npcs (list): List of NPC objects.
+        
+    Returns:
+        dict: A dictionary containing the winner, number of rounds, and damage statistics.
     """
     # Reset participants
     for p in pcs + npcs:
         p.reset()
-        p.current_battle_damage = 0
 
-    battle_log = []
-    
     # Simple initiative: random order of all participants
     participants = pcs + npcs
     
@@ -36,13 +39,10 @@ def simulate_battle(pcs, npcs):
             target = random.choice(targets)
             
             raw_damage = attacker.roll_damage()
-            actual_damage = target.take_damage(raw_damage)
+            actual_damage = target.take_damage(amount=raw_damage)
             
             attacker.total_damage_dealt += actual_damage
             attacker.current_battle_damage += actual_damage
-            
-            # (Optional) Log the action if needed for debugging
-            # battle_log.append(f"{attacker.name} hit {target.name} for {actual_damage} damage ({raw_damage} raw)")
 
     winner = "PCs" if any(p.is_alive() for p in pcs) else "NPCs"
     

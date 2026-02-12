@@ -1,14 +1,22 @@
 from collections import defaultdict
 
 class StatsTracker:
+    """Tracks and aggregates statistics across multiple battle simulations."""
     def __init__(self):
+        """Initialize the tracker with zeroed statistics."""
         self.pc_wins = 0
         self.npc_wins = 0
         self.total_battles = 0
         self.damage_distribution = defaultdict(float)
         self.battle_durations = []
 
-    def track_battle(self, result):
+    def track_battle(self, *, result):
+        """
+        Records the results of a single battle.
+        
+        Args:
+            result (dict): The result dictionary from simulate_battle.
+        """
         self.total_battles += 1
         if result["winner"] == "PCs":
             self.pc_wins += 1
@@ -21,6 +29,12 @@ class StatsTracker:
         self.battle_durations.append(result["rounds"])
 
     def report(self):
+        """
+        Generates a summary report of the tracked statistics.
+        
+        Returns:
+            str: The formatted report.
+        """
         if self.total_battles == 0:
             return "No battles simulated."
 
