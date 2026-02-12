@@ -1,0 +1,21 @@
+{
+    "iterations": 1,
+    "pc_strategy": "random_attack",
+    "npc_strategy": "random_attack",
+    "pcs": [
+        {
+            "name": "Small PC",
+            "hp": 10,
+            "defense": 10,
+            "weapon_pool": "5d4"
+        }
+    ],
+    "npcs": [
+        {
+            "name": "Big NPC",
+            "hp": 10,
+            "defense": 10,
+            "weapon_pool": "1d4"
+        }
+    ]
+}

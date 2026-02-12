@@ -81,10 +81,13 @@ def simulate_battle(*, pcs, npcs, pc_strategy="random_attack", npc_strategy="ran
                 total_damage = 0
                 
                 for die in rolls:
-                    if die >= target.defense:
-                        if attacker.weapon.has_tag("crushing"):
+                    # A die hits if it rolls its max value OR meets/exceeds defense
+                    if die == attacker.weapon.size_max or die >= target.defense:
+                        if attacker.weapon.has_tag("crushing") and die >= target.defense:
+                            # Crushing bonus only applies if it meets/exceeds defense
                             total_damage += die // target.defense
                         else:
+                            # Normal hit or auto-hit from max value
                             total_damage += 1
                 
                 actual_damage = target.take_damage(amount=total_damage)
