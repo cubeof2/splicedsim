@@ -1,0 +1,37 @@
+{
+    "iterations": 1000,
+    "pcs": [
+        {
+            "name": "Fighter",
+            "hp": 30,
+            "defense": 4,
+            "weapon_pool": "1d10"
+        },
+        {
+            "name": "Rogue",
+            "hp": 20,
+            "defense": 2,
+            "weapon_pool": "2d6"
+        }
+    ],
+    "npcs": [
+        {
+            "name": "Goblin 1",
+            "hp": 10,
+            "defense": 2,
+            "weapon_pool": "1d6"
+        },
+        {
+            "name": "Goblin 2",
+            "hp": 10,
+            "defense": 2,
+            "weapon_pool": "1d6"
+        },
+        {
+            "name": "Orc",
+            "hp": 25,
+            "defense": 3,
+            "weapon_pool": "1d12"
+        }
+    ]
+}
