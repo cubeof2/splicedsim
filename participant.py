@@ -1,9 +1,10 @@
 import random
 import re
+from weapon import Weapon
 
 class PC:
     """Represents a Player Character in the simulation."""
-    def __init__(self, *, name, hp, defense, weapon_pool):
+    def __init__(self, *, name, hp, defense, weapon_pool, tags=None):
         """
         Initialize a PC.
         
@@ -12,45 +13,37 @@ class PC:
             hp (int): The hit points of the character.
             defense (int): The defense value to subtract from incoming damage.
             weapon_pool (str): The dice pool for damage (e.g., '2d6').
+            tags (list, optional): List of weapon tags.
         """
         self.name = name
         self.max_hp = hp
         self.hp = hp
         self.defense = defense
-        self.weapon_pool = weapon_pool 
+        self.weapon = Weapon(dice_pool=weapon_pool, tags=tags)
         self.total_damage_dealt = 0
         self.current_battle_damage = 0
 
-    def roll_damage(self):
+    def roll_dice(self):
         """
-        Rolls damage based on the weapon_pool (e.g., '2d6').
+        Rolls each die in the weapon's pool individually.
         
         Returns:
-            int: The total damage rolled.
+            list: List of individual die results.
         """
-        match = re.match(r"(\d+)d(\d+)", self.weapon_pool)
-        if not match:
-            return 0
-        
-        num_dice = int(match.group(1))
-        die_size = int(match.group(2))
-        
-        rolls = [random.randint(1, die_size) for _ in range(num_dice)]
-        return sum(rolls)
+        return self.weapon.roll_dice()
 
     def take_damage(self, *, amount):
         """
-        Reduces HP by damage exceeding defense.
+        Reduces HP by the damage amount. Defense is handled externally in the success mechanic.
         
         Args:
-            amount (int): The raw damage incoming.
+            amount (int): The damage to take.
             
         Returns:
-            int: The actual damage taken.
+            int: The damage taken.
         """
-        actual_damage = max(0, amount - self.defense)
-        self.hp -= actual_damage
-        return actual_damage
+        self.hp -= amount
+        return amount
 
     def is_alive(self):
         """Checks if the character is still alive."""
@@ -63,7 +56,7 @@ class PC:
 
 class NPC:
     """Represents a Non-Player Character in the simulation."""
-    def __init__(self, *, name, hp, defense, weapon_pool):
+    def __init__(self, *, name, hp, defense, weapon_pool, tags=None):
         """
         Initialize an NPC.
         
@@ -72,40 +65,37 @@ class NPC:
             hp (int): The hit points of the NPC.
             defense (int): The defense value to subtract from incoming damage.
             weapon_pool (str): The dice pool for damage (e.g., '1d6').
+            tags (list, optional): List of weapon tags.
         """
         self.name = name
         self.max_hp = hp
         self.hp = hp
         self.defense = defense
-        self.weapon_pool = weapon_pool 
+        self.weapon = Weapon(dice_pool=weapon_pool, tags=tags)
         self.total_damage_dealt = 0
         self.current_battle_damage = 0
 
-    def roll_damage(self):
+    def roll_dice(self):
         """
-        Rolls damage based on the weapon_pool.
+        Rolls each die in the NPC's weapon individually.
         
         Returns:
-            int: The total damage rolled.
+            list: List of individual die results.
         """
-        match = re.match(r"(\d+)d(\d+)", self.weapon_pool)
-        if not match: return 0
-        num_dice, die_size = map(int, match.groups())
-        return sum(random.randint(1, die_size) for _ in range(num_dice))
+        return self.weapon.roll_dice()
 
     def take_damage(self, *, amount):
         """
-        Reduces HP by damage exceeding defense.
+        Reduces HP by the damage amount.
         
         Args:
-            amount (int): The raw damage incoming.
+            amount (int): The damage to take.
             
         Returns:
-            int: The actual damage taken.
+            int: The damage taken.
         """
-        actual_damage = max(0, amount - self.defense)
-        self.hp -= actual_damage
-        return actual_damage
+        self.hp -= amount
+        return amount
 
     def is_alive(self):
         """Checks if the NPC is still alive."""

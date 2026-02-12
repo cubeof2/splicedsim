@@ -1,0 +1,21 @@
+{
+    "iterations": 10,
+    "pc_strategy": "random_attack",
+    "npc_strategy": "random_attack",
+    "pcs": [
+        {
+            "name": "Duelist",
+            "hp": 25,
+            "defense": 3,
+            "weapon_pool": "2d8"
+        }
+    ],
+    "npcs": [
+        {
+            "name": "Gladiator",
+            "hp": 25,
+            "defense": 3,
+            "weapon_pool": "2d8"
+        }
+    ]
+}
