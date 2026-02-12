@@ -28,8 +28,8 @@ def simulate_attacks(quantity, size_max, defense, crushing, iterations=10000):
 
 def main():
     sizes = [4, 6, 8, 10, 12]
-    quantities = [1, 2, 3, 4, 5]
-    defenses = [3, 4, 5, 6]
+    quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    defenses = [3, 4, 5, 6, 7, 8, 9, 10]
     
     for crushing in [False, True]:
         print(f"\n{'='*60}")
